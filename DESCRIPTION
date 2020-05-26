@@ -1,0 +1,13 @@
+Package: FAIG
+Type: Package
+Title: Algorithms for fair allocation of indivisible goods
+Version: 0.1
+Date: 2020-05-21
+Author: Dries Cornilly, Giovanni Puccetti, Ludger Rüschendorf, Steven Vanduffel
+Maintainer: Dries Cornilly <driescornilly@gmail.com>
+Description: Implements algorithms as in the paper 'New algorithms for fair allocation of indivisible goods with minimum inequality or minimum envy criteria'.
+License: GPL-2 | GPL-3
+Imports: Rcpp (>= 1.0.2)
+LinkingTo: Rcpp, RcppArmadillo
+Encoding: UTF-8
+RoxygenNote: 6.1.1
