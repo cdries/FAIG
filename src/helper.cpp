@@ -95,3 +95,21 @@ double get_fnV(arma::mat valmat, int n, arma::mat avgval) {
   double v = arma::sum(arma::sum(arma::square(valmat - avgval), 1)) / nn;
   return v;
 }
+
+
+//' @export
+//[[Rcpp::export]]
+double get_util(arma::mat valmat) {
+  // gets the product of the valuations of each person from a matrix with valuations
+  // 
+  // arguments:
+  // valmat   : valuation matrix of the different sets (columns) to each person (row)
+  //
+  // output:
+  // u        : product of the utilities
+  //
+  // author: Dries Cornilly
+  
+  double u = arma::prod(arma::diagvec(valmat));
+  return u;
+}

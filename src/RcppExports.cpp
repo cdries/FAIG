@@ -57,6 +57,17 @@ BEGIN_RCPP
     return rcpp_result_gen;
 END_RCPP
 }
+// get_util
+double get_util(arma::mat valmat);
+RcppExport SEXP _FAIG_get_util(SEXP valmatSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type valmat(valmatSEXP);
+    rcpp_result_gen = Rcpp::wrap(get_util(valmat));
+    return rcpp_result_gen;
+END_RCPP
+}
 // testfunc
 int testfunc(int oldperson, int addperson, int n_persons);
 RcppExport SEXP _FAIG_testfunc(SEXP oldpersonSEXP, SEXP addpersonSEXP, SEXP n_personsSEXP) {
@@ -95,6 +106,20 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
     rcpp_result_gen = Rcpp::wrap(localtrades_social(vals, alloc, maxiter, eps));
+    return rcpp_result_gen;
+END_RCPP
+}
+// localtrades_utility
+List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double eps);
+RcppExport SEXP _FAIG_localtrades_utility(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+BEGIN_RCPP
+    Rcpp::RObject rcpp_result_gen;
+    Rcpp::RNGScope rcpp_rngScope_gen;
+    Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
+    Rcpp::traits::input_parameter< arma::ivec >::type alloc(allocSEXP);
+    Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
+    rcpp_result_gen = Rcpp::wrap(localtrades_utility(vals, alloc, maxiter, eps));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -173,9 +198,11 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FAIG_get_maxenvy", (DL_FUNC) &_FAIG_get_maxenvy, 2},
     {"_FAIG_get_avgval", (DL_FUNC) &_FAIG_get_avgval, 2},
     {"_FAIG_get_fnV", (DL_FUNC) &_FAIG_get_fnV, 3},
+    {"_FAIG_get_util", (DL_FUNC) &_FAIG_get_util, 1},
     {"_FAIG_testfunc", (DL_FUNC) &_FAIG_testfunc, 3},
     {"_FAIG_localtrades_envy", (DL_FUNC) &_FAIG_localtrades_envy, 4},
     {"_FAIG_localtrades_social", (DL_FUNC) &_FAIG_localtrades_social, 4},
+    {"_FAIG_localtrades_utility", (DL_FUNC) &_FAIG_localtrades_utility, 4},
     {"_FAIG_mincov", (DL_FUNC) &_FAIG_mincov, 5},
     {"_FAIG_mincovtarget", (DL_FUNC) &_FAIG_mincovtarget, 6},
     {"_FAIG_random_alloc", (DL_FUNC) &_FAIG_random_alloc, 2},

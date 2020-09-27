@@ -21,6 +21,11 @@ get_fnV <- function(valmat, n, avgval) {
     .Call('_FAIG_get_fnV', PACKAGE = 'FAIG', valmat, n, avgval)
 }
 
+#' @export
+get_util <- function(valmat) {
+    .Call('_FAIG_get_util', PACKAGE = 'FAIG', valmat)
+}
+
 testfunc <- function(oldperson, addperson, n_persons) {
     .Call('_FAIG_testfunc', PACKAGE = 'FAIG', oldperson, addperson, n_persons)
 }
@@ -31,6 +36,10 @@ localtrades_envy <- function(vals, alloc, maxiter, eps) {
 
 localtrades_social <- function(vals, alloc, maxiter, eps) {
     .Call('_FAIG_localtrades_social', PACKAGE = 'FAIG', vals, alloc, maxiter, eps)
+}
+
+localtrades_utility <- function(vals, alloc, maxiter, eps) {
+    .Call('_FAIG_localtrades_utility', PACKAGE = 'FAIG', vals, alloc, maxiter, eps)
 }
 
 mincov <- function(vals, alloc, beta, maxiter, eps) {

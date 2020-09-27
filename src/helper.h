@@ -15,5 +15,7 @@ arma::mat get_avgval(arma::mat valmat, int n);
 
 double get_fnV(arma::mat valmat, int n, arma::mat avgval);
 
+double get_util(arma::mat valmat);
+
 
 #endif

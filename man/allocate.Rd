@@ -5,8 +5,15 @@
 \alias{allocate}
 \title{Allocate indivisible goods}
 \usage{
-allocate(vals, algo = "mincov", obj = "soc", alloc0 = "random",
-  maxiter = 1e+05, eps = 1e-06, target = 0)
+allocate(
+  vals,
+  algo = "mincov",
+  obj = "soc",
+  alloc0 = "random",
+  maxiter = 1e+05,
+  eps = 1e-06,
+  target = 0
+)
 }
 \arguments{
 \item{vals}{valuation matrix, each row represents the value for this agent for each of the items (columns)}

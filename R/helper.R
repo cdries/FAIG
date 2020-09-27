@@ -95,6 +95,8 @@ localtrades_wrapper <- function(vals, alloc0, obj, n_persons, n_items, maxiter, 
     out <- localtrades_social(vals, alloc0, maxiter, eps)
   } else if (obj == 'maxenvy') {
     out <- localtrades_envy(vals, alloc0, maxiter, eps)
+  } else if (obj == 'maxutility') {
+    out <- localtrades_utility(vals, alloc0, maxiter, eps)
   } else {
     warning('Objective not implemented')
   }

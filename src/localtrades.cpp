@@ -13,7 +13,7 @@ int testfunc(int oldperson, int addperson, int n_persons){
 
 // [[Rcpp::export]]
 List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
-  // envy-swapping algorithm - randomly choose an item and allocate it to a different person, if it
+  // envy-swapping algorithm - randomly choose an item and allocate it to a different person if it
   // decreases the maxenvy objective. This is done a maximum of maxiter steps or until a maxenvy of eps is
   // reached.
   // 
@@ -93,14 +93,14 @@ List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps)
 // [[Rcpp::export]]
 List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
   // social inequality-swapping algorithm - randomly choose an item and allocate it to a different 
-  // person, if it decreases the social inequality objective. This is done a maximum of maxiter steps 
-  // or until a maxenvy of eps is reached.
+  // person if it decreases the social inequality objective. This is done a maximum of maxiter steps 
+  // or until a social inequality objective of eps is reached.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // alloc    : index of the person to which each item belongs
   // maxiter  : maximum number of iterations
-  // eps      : terminate if maxenvy < eps
+  // eps      : terminate if soc_ineq < eps
   //
   // output:
   // alloc    : optimal allocation
@@ -163,6 +163,85 @@ List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double ep
   out["minsoc"] = minsoc;
   out["valmat"] = valmat;
   out["socvec"] = socvec;
+  out["status"] = status;
+  out["iter"] = iter;
+  
+  return out;
+}
+
+
+// [[Rcpp::export]]
+List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
+  // utility swapping algorithm - randomly choose an item and allocate it to a different 
+  // person,if it increases the product of individual utilities. This is done a maximum of maxiter steps 
+  // or until a product-utility of eps is reached.
+  // 
+  // arguments:
+  // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
+  // alloc    : index of the person to which each item belongs
+  // maxiter  : maximum number of iterations
+  // eps      : terminate if max_util > eps
+  //
+  // output:
+  // alloc    : optimal allocation
+  // maxutil  : optimal value of utility - corresponds to alloc
+  // valmat   : valuation matrix of the different sets (columns) to each person (row)
+  // utilvec  : vector with utlity values at the different iterations
+  // status   : 0 (V > eps); 1 (maxiter reached)
+  // iter     : number of iterations the algorithm completed before stopping
+  //
+  // author: Dries Cornilly
+  
+  // initialize
+  int n_items = vals.n_cols;                      // number of items to distribute
+  int n_persons = vals.n_rows;                    // number of persons to distribute among
+  arma::mat valmat = get_valmat(vals, alloc, n_items, n_persons); // get value of each set of items for each person
+  arma::vec utilvec = arma::zeros(maxiter + 1);   // initialize social inequality through iterations
+  double maxutil = get_util(valmat);              // utility at initial stage
+  utilvec(0) = maxutil;
+  arma::vec setvals = arma::diagvec(valmat);      // current value of each set
+
+  // iterate
+  int iter = 0;
+  bool converged = false;
+  int status = 1;
+  while (iter < maxiter && !converged) {
+
+    // sample items to give to a different owner
+    int item = arma::randi(1, arma::distr_param(0, n_items - 1))(0);
+    int addperson = arma::randi(1, arma::distr_param(1, n_persons - 1))(0);
+
+    // try the reassignment and update if improvements are made
+    arma::ivec alloctemp = alloc - 1;
+    int oldperson = alloctemp(item);
+    int newperson = (oldperson + addperson) % n_persons;
+    arma::vec setvalstemp = setvals;
+    setvalstemp(oldperson) -= vals(oldperson, item);
+    setvalstemp(newperson) += vals(newperson, item);
+    double utiltemp = arma::prod(setvalstemp);
+    utilvec(1 + iter) = utiltemp;
+
+    // update if lower maxenvy
+    if (utiltemp > maxutil) {
+      maxutil = utiltemp;
+      alloc(item) = newperson + 1;
+      setvals = setvalstemp;
+    }
+
+    // // check convergence
+    // if (maxutil > eps) {
+    //   converged = true;
+    //   status = 0;
+    // }
+
+    iter++;
+  }
+
+  List out;
+  out["alloc"] = alloc;
+  out["maxutil"] = maxutil;
+  out["valmat"] = get_valmat(vals, alloc, n_items, n_persons);
+  out["utilvec"] = utilvec;
   out["status"] = status;
   out["iter"] = iter;
   
