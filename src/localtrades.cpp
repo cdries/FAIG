@@ -12,15 +12,16 @@ int testfunc(int oldperson, int addperson, int n_persons){
 }
 
 // [[Rcpp::export]]
-List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
+List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps) {
   // envy-swapping algorithm - randomly choose an item and allocate it to a different person if it
-  // decreases the maxenvy objective. This is done a maximum of maxiter steps or until a maxenvy of eps is
-  // reached.
+  // decreases the maxenvy objective. This is done a maximum of maxiter steps, until a maxenvy of eps is
+  // reached, or until there is no improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // alloc    : index of the person to which each item belongs
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if maxenvy < eps
   //
   // output:
@@ -45,6 +46,7 @@ List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps)
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
     
     // sample items to give to a different owner
@@ -67,12 +69,18 @@ List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps)
       minmaxenvy = envytemp;
       alloc = alloctemp + 1;
       valmat = valmattemp;
+      noimprove = 0;
+    } else {
+      noimprove++;
     }
     
     // check convergence
     if (minmaxenvy < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
 
     iter++;
@@ -91,15 +99,16 @@ List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps)
 
 
 // [[Rcpp::export]]
-List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
+List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps) {
   // social inequality-swapping algorithm - randomly choose an item and allocate it to a different 
-  // person if it decreases the social inequality objective. This is done a maximum of maxiter steps 
-  // or until a social inequality objective of eps is reached.
+  // person if it decreases the social inequality objective. This is done a maximum of maxiter steps, 
+  // until a social inequality of eps is reached, or until there is no improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // alloc    : index of the person to which each item belongs
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if soc_ineq < eps
   //
   // output:
@@ -125,6 +134,7 @@ List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double ep
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
     
     // sample items to give to a different owner
@@ -147,12 +157,18 @@ List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double ep
       minsoc = soctemp;
       alloc = alloctemp + 1;
       valmat = valmattemp;
+      noimprove = 0;
+    } else {
+      noimprove++;
     }
     
     // check convergence
     if (minsoc < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
     
     iter++;
@@ -171,15 +187,16 @@ List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double ep
 
 
 // [[Rcpp::export]]
-List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double eps) {
+List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps) {
   // utility swapping algorithm - randomly choose an item and allocate it to a different 
-  // person,if it increases the product of individual utilities. This is done a maximum of maxiter steps 
-  // or until a product-utility of eps is reached.
+  // person,if it increases the product of individual utilities. This is done a maximum of maxiter 
+  // steps, or until there is no improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // alloc    : index of the person to which each item belongs
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if max_util > eps
   //
   // output:
@@ -205,6 +222,7 @@ List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double e
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
 
     // sample items to give to a different owner
@@ -221,11 +239,14 @@ List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double e
     double utiltemp = arma::prod(setvalstemp);
     utilvec(1 + iter) = utiltemp;
 
-    // update if lower maxenvy
+    // update if higher utility
     if (utiltemp > maxutil) {
       maxutil = utiltemp;
       alloc(item) = newperson + 1;
       setvals = setvalstemp;
+      noimprove = 0;
+    } else {
+      noimprove++;
     }
 
     // // check convergence
@@ -233,6 +254,10 @@ List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double e
     //   converged = true;
     //   status = 0;
     // }
+    if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
+    }
 
     iter++;
   }

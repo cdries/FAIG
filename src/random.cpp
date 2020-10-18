@@ -25,13 +25,15 @@ arma::ivec random_alloc(int n_items, int n_persons) {
 
 
 // [[Rcpp::export]]
-List randselect_envy(arma::mat vals, int maxiter, double eps) {
+List randselect_envy(arma::mat vals, int maxiter, int maxnoimprove, double eps) {
   // random minmaxenvy algorithm - randomly (uniformly) allocate each item to one of the persons. This
-  // is done a maximum of maxiter steps or until maxenvy of eps is reached.
+  // is done a maximum of maxiter steps, until a maxenvy of eps is reached, or until there is no 
+  // improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if maxenvy < eps
   //
   // output:
@@ -56,6 +58,7 @@ List randselect_envy(arma::mat vals, int maxiter, double eps) {
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
     
     // give items to random person
@@ -69,12 +72,18 @@ List randselect_envy(arma::mat vals, int maxiter, double eps) {
       minmaxenvy = envytemp;
       alloc = alloctemp;
       valmat = valmattemp;
+      noimprove = 0;
+    } else {
+      noimprove++;
     }
     
     // check convergence
     if (minmaxenvy < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
     
     iter++;
@@ -93,13 +102,15 @@ List randselect_envy(arma::mat vals, int maxiter, double eps) {
 
 
 // [[Rcpp::export]]
-List randselect_social(arma::mat vals, int maxiter, double eps) {
+List randselect_social(arma::mat vals, int maxiter, int maxnoimprove, double eps) {
   // random social inequality algorithm - randomly (uniformly) allocate each item to one of the
-  // persons. This is done a maximum of maxiter steps or until a social inequality of eps is reached.
+  // persons. This is done a maximum of maxiter steps, until a social inequality of eps is reached,
+  // or until there is no improvement for maxnoimprove steps.
   //
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if soc < eps
   //
   // output:
@@ -125,6 +136,7 @@ List randselect_social(arma::mat vals, int maxiter, double eps) {
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
 
     // give items to random person
@@ -138,12 +150,18 @@ List randselect_social(arma::mat vals, int maxiter, double eps) {
       minsoc = soctemp;
       alloc = alloctemp;
       valmat = valmattemp;
+      noimprove = 0;
+    } else {
+      noimprove++;
     }
 
     // check convergence
     if (minsoc < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
 
     iter++;

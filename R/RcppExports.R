@@ -30,35 +30,35 @@ testfunc <- function(oldperson, addperson, n_persons) {
     .Call('_FAIG_testfunc', PACKAGE = 'FAIG', oldperson, addperson, n_persons)
 }
 
-localtrades_envy <- function(vals, alloc, maxiter, eps) {
-    .Call('_FAIG_localtrades_envy', PACKAGE = 'FAIG', vals, alloc, maxiter, eps)
+localtrades_envy <- function(vals, alloc, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_localtrades_envy', PACKAGE = 'FAIG', vals, alloc, maxiter, maxnoimprove, eps)
 }
 
-localtrades_social <- function(vals, alloc, maxiter, eps) {
-    .Call('_FAIG_localtrades_social', PACKAGE = 'FAIG', vals, alloc, maxiter, eps)
+localtrades_social <- function(vals, alloc, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_localtrades_social', PACKAGE = 'FAIG', vals, alloc, maxiter, maxnoimprove, eps)
 }
 
-localtrades_utility <- function(vals, alloc, maxiter, eps) {
-    .Call('_FAIG_localtrades_utility', PACKAGE = 'FAIG', vals, alloc, maxiter, eps)
+localtrades_utility <- function(vals, alloc, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_localtrades_utility', PACKAGE = 'FAIG', vals, alloc, maxiter, maxnoimprove, eps)
 }
 
-mincov <- function(vals, alloc, beta, maxiter, eps) {
-    .Call('_FAIG_mincov', PACKAGE = 'FAIG', vals, alloc, beta, maxiter, eps)
+mincov <- function(vals, alloc, beta, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_mincov', PACKAGE = 'FAIG', vals, alloc, beta, maxiter, maxnoimprove, eps)
 }
 
-mincovtarget <- function(vals, alloc, beta, target, maxiter, eps) {
-    .Call('_FAIG_mincovtarget', PACKAGE = 'FAIG', vals, alloc, beta, target, maxiter, eps)
+mincovtarget <- function(vals, alloc, beta, target, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_mincovtarget', PACKAGE = 'FAIG', vals, alloc, beta, target, maxiter, maxnoimprove, eps)
 }
 
 random_alloc <- function(n_items, n_persons) {
     .Call('_FAIG_random_alloc', PACKAGE = 'FAIG', n_items, n_persons)
 }
 
-randselect_envy <- function(vals, maxiter, eps) {
-    .Call('_FAIG_randselect_envy', PACKAGE = 'FAIG', vals, maxiter, eps)
+randselect_envy <- function(vals, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_randselect_envy', PACKAGE = 'FAIG', vals, maxiter, maxnoimprove, eps)
 }
 
-randselect_social <- function(vals, maxiter, eps) {
-    .Call('_FAIG_randselect_social', PACKAGE = 'FAIG', vals, maxiter, eps)
+randselect_social <- function(vals, maxiter, maxnoimprove, eps) {
+    .Call('_FAIG_randselect_social', PACKAGE = 'FAIG', vals, maxiter, maxnoimprove, eps)
 }
 

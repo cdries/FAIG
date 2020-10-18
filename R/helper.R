@@ -31,7 +31,7 @@ get_beta <- function(vals, n_persons, n_items) {
 }
 
 
-mincov_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, eps) {
+mincov_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, maxnoimprove, eps) {
   
   # get initial allocation if necessary
   if (alloc0[1] == 'random') {
@@ -42,13 +42,13 @@ mincov_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, eps) {
   beta <- get_beta(vals, n_persons, n_items)
   
   # call mincov
-  out <- mincov(vals, alloc0, beta, maxiter, eps)
+  out <- mincov(vals, alloc0, beta, maxiter, maxnoimprove, eps)
   
   return (out)
 }
 
 
-mincovtarget_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, eps, target) {
+mincovtarget_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, axnoimprove, eps, target) {
   
   # get initial allocation if necessary
   if (alloc0[1] == 'random') {
@@ -62,19 +62,19 @@ mincovtarget_wrapper <- function(vals, alloc0, n_items, n_persons, maxiter, eps,
   if (length(target) == 1) {
     target <- rep(target, n_persons)
   }
-  out <- mincovtarget(vals, alloc0, beta, target, maxiter, eps)
+  out <- mincovtarget(vals, alloc0, beta, target, maxiter, maxnoimprove, eps)
   
   return (out)
 }
 
 
-randselect_wrapper <- function(vals, obj, maxiter, eps) {
+randselect_wrapper <- function(vals, obj, maxiter, maxnoimprove, eps) {
   
   # call randselect implementation depending on the objective
   if (obj == 'soc') {
-    out <- randselect_social(vals, maxiter, eps)
+    out <- randselect_social(vals, maxiter, maxnoimprove, eps)
   } else if (obj == 'maxenvy') {
-    out <- randselect_envy(vals, maxiter, eps)
+    out <- randselect_envy(vals, maxiter, maxnoimprove, eps)
   } else {
     warning('Objective not implemented.')
   }
@@ -83,7 +83,7 @@ randselect_wrapper <- function(vals, obj, maxiter, eps) {
 }
 
 
-localtrades_wrapper <- function(vals, alloc0, obj, n_persons, n_items, maxiter, eps) {
+localtrades_wrapper <- function(vals, alloc0, obj, n_persons, n_items, maxiter, maxnoimprove, eps) {
   
   # get initial allocation if necessary
   if (alloc0[1] == 'random') {
@@ -92,11 +92,11 @@ localtrades_wrapper <- function(vals, alloc0, obj, n_persons, n_items, maxiter, 
   
   # call localtrades implementation depending on the objective
   if (obj == 'soc') {
-    out <- localtrades_social(vals, alloc0, maxiter, eps)
+    out <- localtrades_social(vals, alloc0, maxiter, maxnoimprove, eps)
   } else if (obj == 'maxenvy') {
-    out <- localtrades_envy(vals, alloc0, maxiter, eps)
+    out <- localtrades_envy(vals, alloc0, maxiter, maxnoimprove, eps)
   } else if (obj == 'maxutility') {
-    out <- localtrades_utility(vals, alloc0, maxiter, eps)
+    out <- localtrades_utility(vals, alloc0, maxiter, maxnoimprove, eps)
   } else {
     warning('Objective not implemented')
   }

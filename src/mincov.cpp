@@ -7,16 +7,17 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, double eps) {
+List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, int maxnoimprove, double eps) {
   // mincov algorithm - randomly choose a column (item) and give it to the person (row) that should 
-  // receive it according to the theorem in the paper. This is done a maximum of maxiter steps or 
-  // until a social inequality of eps.
+  // receive it according to the theorem in the paper. This is done a maximum of maxiter steps, 
+  // until a social inequality of eps, or until there is no improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
   // alloc    : index of the person to which each item belongs
   // beta     : beta of each person and item with respect to the first person
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if maxenvy < eps
   //
   // output:
@@ -41,6 +42,7 @@ List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, doubl
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
 
     // sample item and get its owner
@@ -59,11 +61,19 @@ List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, doubl
     valmat.col(newperson) += vals.col(item);
     alloc(item) = newperson + 1;
     socvec(1 + iter) = get_fnV(valmat, n_persons, avgval);
+    if (socvec(1 + iter) < socvec(iter)) {
+      noimprove = 0;
+    } else {
+      noimprove++;
+    }
 
     // check convergence
     if (socvec(1 + iter) < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
 
     iter++;
@@ -82,10 +92,11 @@ List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, doubl
 
 
 // [[Rcpp::export]]
-List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec target, int maxiter, double eps) {
+List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec target, 
+                  int maxiter, int maxnoimprove, double eps) {
   // mincov algorithm with target value - randomly choose a column (item) and give it to the person (row) 
-  // that should receive it according to the theorem in the paper. This is done a maximum of maxiter steps or 
-  // until a social inequality of eps.
+  // that should receive it according to the theorem in the paper. This is done a maximum of maxiter steps, 
+  // until a social inequality of eps, or until there is no improvement for maxnoimprove steps.
   // 
   // arguments:
   // vals     : matrix (n_persons x n_items) with each row the valuation of that person for the items
@@ -93,6 +104,7 @@ List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec ta
   // beta     : beta of each person and item with respect to the first person
   // target   : target value for each of the persons
   // maxiter  : maximum number of iterations
+  // maxnoimprove : terminate if no improvement for maxnoimprove consecutive steps
   // eps      : terminate if maxenvy < eps
   //
   // output:
@@ -118,6 +130,7 @@ List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec ta
   int iter = 0;
   bool converged = false;
   int status = 1;
+  int noimprove = 0;
   while (iter < maxiter && !converged) {
     
     // sample item and get its owner
@@ -136,11 +149,19 @@ List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec ta
     valmatT.col(newperson) += vals.col(item);
     alloc(item) = newperson + 1;
     socvec(1 + iter) = get_fnV(valmatT, n_persons, avgval);
-
+    if (socvec(1 + iter) < socvec(iter)) {
+      noimprove = 0;
+    } else {
+      noimprove++;
+    }
+    
     // check convergence
     if (socvec(1 + iter) < eps) {
       converged = true;
       status = 0;
+    } else if (noimprove >= maxnoimprove) {
+      converged = true;
+      status = 2;
     }
 
     iter++;

@@ -11,6 +11,7 @@ allocate(
   obj = "soc",
   alloc0 = "random",
   maxiter = 1e+05,
+  maxnoimprove = 1000,
   eps = 1e-06,
   target = 0
 )
@@ -28,6 +29,8 @@ index of the person to which each item belongs, or 'random', in which case we ge
 initial allocation; not relevant when algo='randselect"}
 
 \item{maxiter}{maximum number of iterations, default 1e5}
+
+\item{maxnoimprove}{convergence criterium in number of steps yielding no improvement, default 1e3}
 
 \item{eps}{absolute convergence criterion, default 1e-6}
 

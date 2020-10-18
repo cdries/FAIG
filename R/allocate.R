@@ -21,6 +21,7 @@
 #' index of the person to which each item belongs, or 'random', in which case we generate a random
 #' initial allocation; not relevant when algo='randselect"
 #' @param maxiter maximum number of iterations, default 1e5
+#' @param maxnoimprove convergence criterium in number of steps yielding no improvement, default 1e3
 #' @param eps absolute convergence criterion, default 1e-6
 #' @param target target value or vector (length n_persons), only relevant for mincovtarget
 #' @author Dries Cornilly
@@ -32,7 +33,8 @@
 #' @import Rcpp
 #' @useDynLib FAIG
 #' @export allocate
-allocate <- function(vals, algo='mincov', obj='soc', alloc0='random', maxiter=1e5, eps=1e-6, target=0) {
+allocate <- function(vals, algo='mincov', obj='soc', alloc0='random', 
+                     maxiter=1e5, maxnoimprove=1e3, eps=1e-6, target=0) {
   
   # initialize properties
   n_items  <- ncol(vals)
@@ -40,13 +42,13 @@ allocate <- function(vals, algo='mincov', obj='soc', alloc0='random', maxiter=1e
   
   # call the requested algorithm
   if (algo == 'mincov') {
-    out <- mincov_wrapper(vals, alloc0, n_items, n_persons, maxiter, eps)
+    out <- mincov_wrapper(vals, alloc0, n_items, n_persons, maxiter, maxnoimprove, eps)
   } else if (algo == 'mincovtarget') {
-    out <- mincovtarget_wrapper(vals, alloc0, n_items, n_persons, maxiter, eps, target)
+    out <- mincovtarget_wrapper(vals, alloc0, n_items, n_persons, maxiter, maxnoimprove, eps, target)
   } else if (algo == 'randselect') {
-    out <- randselect_wrapper(vals, obj, maxiter, eps)
+    out <- randselect_wrapper(vals, obj, maxiter, maxnoimprove, eps)
   } else if (algo == 'localtrades') {
-    out <- localtrades_wrapper(vals, alloc0, obj, n_persons, n_items, maxiter, eps)
+    out <- localtrades_wrapper(vals, alloc0, obj, n_persons, n_items, maxiter, maxnoimprove, eps)
   } else {
     warning('Chosen algorithm not implemented.')
   }

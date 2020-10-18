@@ -82,50 +82,53 @@ BEGIN_RCPP
 END_RCPP
 }
 // localtrades_envy
-List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, double eps);
-RcppExport SEXP _FAIG_localtrades_envy(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List localtrades_envy(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_localtrades_envy(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
     Rcpp::traits::input_parameter< arma::ivec >::type alloc(allocSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(localtrades_envy(vals, alloc, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(localtrades_envy(vals, alloc, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // localtrades_social
-List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, double eps);
-RcppExport SEXP _FAIG_localtrades_social(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List localtrades_social(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_localtrades_social(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
     Rcpp::traits::input_parameter< arma::ivec >::type alloc(allocSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(localtrades_social(vals, alloc, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(localtrades_social(vals, alloc, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // localtrades_utility
-List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, double eps);
-RcppExport SEXP _FAIG_localtrades_utility(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List localtrades_utility(arma::mat vals, arma::ivec alloc, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_localtrades_utility(SEXP valsSEXP, SEXP allocSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
     Rcpp::traits::input_parameter< arma::ivec >::type alloc(allocSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(localtrades_utility(vals, alloc, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(localtrades_utility(vals, alloc, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // mincov
-List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, double eps);
-RcppExport SEXP _FAIG_mincov(SEXP valsSEXP, SEXP allocSEXP, SEXP betaSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List mincov(arma::mat vals, arma::ivec alloc, arma::mat beta, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_mincov(SEXP valsSEXP, SEXP allocSEXP, SEXP betaSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -133,14 +136,15 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::ivec >::type alloc(allocSEXP);
     Rcpp::traits::input_parameter< arma::mat >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(mincov(vals, alloc, beta, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(mincov(vals, alloc, beta, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // mincovtarget
-List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec target, int maxiter, double eps);
-RcppExport SEXP _FAIG_mincovtarget(SEXP valsSEXP, SEXP allocSEXP, SEXP betaSEXP, SEXP targetSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List mincovtarget(arma::mat vals, arma::ivec alloc, arma::mat beta, arma::vec target, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_mincovtarget(SEXP valsSEXP, SEXP allocSEXP, SEXP betaSEXP, SEXP targetSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
@@ -149,8 +153,9 @@ BEGIN_RCPP
     Rcpp::traits::input_parameter< arma::mat >::type beta(betaSEXP);
     Rcpp::traits::input_parameter< arma::vec >::type target(targetSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(mincovtarget(vals, alloc, beta, target, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(mincovtarget(vals, alloc, beta, target, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -167,28 +172,30 @@ BEGIN_RCPP
 END_RCPP
 }
 // randselect_envy
-List randselect_envy(arma::mat vals, int maxiter, double eps);
-RcppExport SEXP _FAIG_randselect_envy(SEXP valsSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List randselect_envy(arma::mat vals, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_randselect_envy(SEXP valsSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(randselect_envy(vals, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(randselect_envy(vals, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
 // randselect_social
-List randselect_social(arma::mat vals, int maxiter, double eps);
-RcppExport SEXP _FAIG_randselect_social(SEXP valsSEXP, SEXP maxiterSEXP, SEXP epsSEXP) {
+List randselect_social(arma::mat vals, int maxiter, int maxnoimprove, double eps);
+RcppExport SEXP _FAIG_randselect_social(SEXP valsSEXP, SEXP maxiterSEXP, SEXP maxnoimproveSEXP, SEXP epsSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
     Rcpp::traits::input_parameter< arma::mat >::type vals(valsSEXP);
     Rcpp::traits::input_parameter< int >::type maxiter(maxiterSEXP);
+    Rcpp::traits::input_parameter< int >::type maxnoimprove(maxnoimproveSEXP);
     Rcpp::traits::input_parameter< double >::type eps(epsSEXP);
-    rcpp_result_gen = Rcpp::wrap(randselect_social(vals, maxiter, eps));
+    rcpp_result_gen = Rcpp::wrap(randselect_social(vals, maxiter, maxnoimprove, eps));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -200,14 +207,14 @@ static const R_CallMethodDef CallEntries[] = {
     {"_FAIG_get_fnV", (DL_FUNC) &_FAIG_get_fnV, 3},
     {"_FAIG_get_util", (DL_FUNC) &_FAIG_get_util, 1},
     {"_FAIG_testfunc", (DL_FUNC) &_FAIG_testfunc, 3},
-    {"_FAIG_localtrades_envy", (DL_FUNC) &_FAIG_localtrades_envy, 4},
-    {"_FAIG_localtrades_social", (DL_FUNC) &_FAIG_localtrades_social, 4},
-    {"_FAIG_localtrades_utility", (DL_FUNC) &_FAIG_localtrades_utility, 4},
-    {"_FAIG_mincov", (DL_FUNC) &_FAIG_mincov, 5},
-    {"_FAIG_mincovtarget", (DL_FUNC) &_FAIG_mincovtarget, 6},
+    {"_FAIG_localtrades_envy", (DL_FUNC) &_FAIG_localtrades_envy, 5},
+    {"_FAIG_localtrades_social", (DL_FUNC) &_FAIG_localtrades_social, 5},
+    {"_FAIG_localtrades_utility", (DL_FUNC) &_FAIG_localtrades_utility, 5},
+    {"_FAIG_mincov", (DL_FUNC) &_FAIG_mincov, 6},
+    {"_FAIG_mincovtarget", (DL_FUNC) &_FAIG_mincovtarget, 7},
     {"_FAIG_random_alloc", (DL_FUNC) &_FAIG_random_alloc, 2},
-    {"_FAIG_randselect_envy", (DL_FUNC) &_FAIG_randselect_envy, 3},
-    {"_FAIG_randselect_social", (DL_FUNC) &_FAIG_randselect_social, 3},
+    {"_FAIG_randselect_envy", (DL_FUNC) &_FAIG_randselect_envy, 4},
+    {"_FAIG_randselect_social", (DL_FUNC) &_FAIG_randselect_social, 4},
     {NULL, NULL, 0}
 };
 
