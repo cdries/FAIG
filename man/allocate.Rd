@@ -20,7 +20,7 @@ allocate(
 
 \item{algo}{algorithm, one of (mincov, mincovtarget, localtrades, randselect)}
 
-\item{obj}{objective value to minimize, one of (soc, maxenvy); only relevant for algorithms 
+\item{obj}{objective value to minimize, one of (soc, maxenvy, maxutility); only relevant for algorithms 
 localtrades and randselect}
 
 \item{alloc0}{initial allocation, either a vector of length n_items containing the

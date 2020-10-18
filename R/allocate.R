@@ -15,7 +15,7 @@
 #' @concept allocate
 #' @param vals valuation matrix, each row represents the value for this agent for each of the items (columns)
 #' @param algo algorithm, one of (mincov, mincovtarget, localtrades, randselect)
-#' @param obj objective value to minimize, one of (soc, maxenvy); only relevant for algorithms 
+#' @param obj objective value to minimize, one of (soc, maxenvy, maxutility); only relevant for algorithms 
 #' localtrades and randselect
 #' @param alloc0 initial allocation, either a vector of length n_items containing the
 #' index of the person to which each item belongs, or 'random', in which case we generate a random
