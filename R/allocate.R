@@ -26,9 +26,8 @@
 #' @param target target value or vector (length n_persons), only relevant for mincovtarget
 #' @author Dries Cornilly
 #' @references
-#' Cornilly, D., Puccetti, G., Rüschendorf, L., & Vanduffel, S. (2020). 
-#' New algorithms for fair allocation of indivisible goods with minimum inequality or minimum envy
-#' criteria.
+#' Cornilly, D., Puccetti, G., Rüschendorf, L., & Vanduffel, S. (2021). 
+#' Fair allocation of indivisible goods with minimum inequality or minimum envy.
 #'
 #' @import Rcpp
 #' @useDynLib FAIG
