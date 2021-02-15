@@ -11,8 +11,7 @@
 #' @author Dries Cornilly
 #' @references
 #' Cornilly, D., Puccetti, G., Rüschendorf, L., & Vanduffel, S. (2020). 
-#' New algorithms for fair allocation of indivisible goods with minimum inequality or minimum envy
-#' criteria.
+#' Fair allocation of indivisible goods with minimum inequality or minimum envy.
 #'
 #' @importFrom stats runif
 #' @export simulate
